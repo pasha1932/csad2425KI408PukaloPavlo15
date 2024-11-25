@@ -1,0 +1,167 @@
+\doxysection{server.\+Tic\+Tac\+Toe\+Server Class Reference}
+\hypertarget{classserver_1_1_tic_tac_toe_server}{}\label{classserver_1_1_tic_tac_toe_server}\index{server.TicTacToeServer@{server.TicTacToeServer}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classserver_1_1_tic_tac_toe_server_ad7b4dae7827d7e4fbf1fc8cbc875d0a1}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, port=\textquotesingle{}COM11\textquotesingle{}, baudrate=9600)
+\item 
+\mbox{\hyperlink{classserver_1_1_tic_tac_toe_server_a3440eb6580ff91c37f6fd63d6d0b1f4e}{init\+\_\+board}} (self)
+\item 
+\mbox{\hyperlink{classserver_1_1_tic_tac_toe_server_aa889a6575f9b2b07bff9d98e14fd9c11}{save\+\_\+game}} (self, filename=\textquotesingle{}savegame.\+ini\textquotesingle{})
+\item 
+\mbox{\hyperlink{classserver_1_1_tic_tac_toe_server_a1b78681ba84b7f424c88b6498e3bb6e2}{load\+\_\+game}} (self, filename=\textquotesingle{}savegame.\+ini\textquotesingle{})
+\item 
+\mbox{\hyperlink{classserver_1_1_tic_tac_toe_server_adc2ba8ad470fd0cd349bad1412886fa8}{check\+\_\+winner}} (self, board, symbol)
+\item 
+\mbox{\hyperlink{classserver_1_1_tic_tac_toe_server_aa05dfe27ae0f784695ece862ddbf9bb2}{check\+\_\+tie}} (self, board)
+\item 
+\mbox{\hyperlink{classserver_1_1_tic_tac_toe_server_aa14b1cc5f0bc5766584650b6968f3879}{minimax}} (self, board, depth, is\+\_\+maximizing)
+\item 
+\mbox{\hyperlink{classserver_1_1_tic_tac_toe_server_a80c75f397f118ae9685efb724ea28745}{make\+\_\+ai\+\_\+move}} (self)
+\item 
+\mbox{\hyperlink{classserver_1_1_tic_tac_toe_server_a46baf297f5a1acd6daa21e6d50d8d20a}{process\+\_\+command}} (self, command)
+\item 
+\mbox{\hyperlink{classserver_1_1_tic_tac_toe_server_a8787c8d9ae65d35c6b7d448030c9d370}{listen}} (self)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classserver_1_1_tic_tac_toe_server_a484cf366dc5df0fb6440188cb30f5160}\label{classserver_1_1_tic_tac_toe_server_a484cf366dc5df0fb6440188cb30f5160} 
+{\bfseries ser} = serial.\+Serial(port, baudrate, timeout=1)
+\item 
+\Hypertarget{classserver_1_1_tic_tac_toe_server_a7c7f2e31138a063ef27fc24cc5769e1a}\label{classserver_1_1_tic_tac_toe_server_a7c7f2e31138a063ef27fc24cc5769e1a} 
+list {\bfseries board} = self.\+init\+\_\+board()
+\item 
+\Hypertarget{classserver_1_1_tic_tac_toe_server_a1b0dcb475657d97d1398c3a103d1f3a8}\label{classserver_1_1_tic_tac_toe_server_a1b0dcb475657d97d1398c3a103d1f3a8} 
+bool {\bfseries game\+\_\+over} = False
+\item 
+\Hypertarget{classserver_1_1_tic_tac_toe_server_a13fc2888375db7e0d23177ab3a02e9cc}\label{classserver_1_1_tic_tac_toe_server_a13fc2888375db7e0d23177ab3a02e9cc} 
+{\bfseries lock} = threading.\+Lock()
+\item 
+\Hypertarget{classserver_1_1_tic_tac_toe_server_ad572d4c64f41fa0669f4d2dddc410ab5}\label{classserver_1_1_tic_tac_toe_server_ad572d4c64f41fa0669f4d2dddc410ab5} 
+{\bfseries player\+\_\+symbol} = None
+\item 
+\Hypertarget{classserver_1_1_tic_tac_toe_server_a45d8fca3a257e5e94364083076f565b5}\label{classserver_1_1_tic_tac_toe_server_a45d8fca3a257e5e94364083076f565b5} 
+str {\bfseries ai\+\_\+symbol} = None
+\item 
+\Hypertarget{classserver_1_1_tic_tac_toe_server_a0d6c650cad77cd0c00870b341bb18fcd}\label{classserver_1_1_tic_tac_toe_server_a0d6c650cad77cd0c00870b341bb18fcd} 
+{\bfseries listen\+\_\+thread} = threading.\+Thread(target=self.\+listen)
+\item 
+\Hypertarget{classserver_1_1_tic_tac_toe_server_a909e88302db2d8d1dc20b7a1de0b2b6f}\label{classserver_1_1_tic_tac_toe_server_a909e88302db2d8d1dc20b7a1de0b2b6f} 
+str {\bfseries game\+\_\+over} = "{}Гра вже закінчена. Розпочніть нову гру."{}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}@class TicTacToeServer
+@brief Сервер гри "Хрестики-Нулики"
+@details Відповідає за логіку гри, збереження/завантаження стану гри, обробку команд та взаємодію через COM-порт.
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classserver_1_1_tic_tac_toe_server_ad7b4dae7827d7e4fbf1fc8cbc875d0a1}\index{server.TicTacToeServer@{server.TicTacToeServer}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!server.TicTacToeServer@{server.TicTacToeServer}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily \label{classserver_1_1_tic_tac_toe_server_ad7b4dae7827d7e4fbf1fc8cbc875d0a1} 
+server.\+Tic\+Tac\+Toe\+Server.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{}]{port}{ = {\ttfamily \textquotesingle{}COM11\textquotesingle{}}, }\item[{}]{baudrate}{ = {\ttfamily 9600}}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Конструктор класу TicTacToeServer
+@param port COM-порт, який буде використовуватись для взаємодії.
+@param baudrate Швидкість передачі даних через COM-порт.
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classserver_1_1_tic_tac_toe_server_aa05dfe27ae0f784695ece862ddbf9bb2}\index{server.TicTacToeServer@{server.TicTacToeServer}!check\_tie@{check\_tie}}
+\index{check\_tie@{check\_tie}!server.TicTacToeServer@{server.TicTacToeServer}}
+\doxysubsubsection{\texorpdfstring{check\_tie()}{check\_tie()}}
+{\footnotesize\ttfamily \label{classserver_1_1_tic_tac_toe_server_aa05dfe27ae0f784695ece862ddbf9bb2} 
+server.\+Tic\+Tac\+Toe\+Server.\+check\+\_\+tie (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{}]{board}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Перевіряє, чи є нічия на дошці.
+@param board Ігрова дошка.
+@return True, якщо нічия; інакше False.
+\end{DoxyVerb}
+ \Hypertarget{classserver_1_1_tic_tac_toe_server_adc2ba8ad470fd0cd349bad1412886fa8}\index{server.TicTacToeServer@{server.TicTacToeServer}!check\_winner@{check\_winner}}
+\index{check\_winner@{check\_winner}!server.TicTacToeServer@{server.TicTacToeServer}}
+\doxysubsubsection{\texorpdfstring{check\_winner()}{check\_winner()}}
+{\footnotesize\ttfamily \label{classserver_1_1_tic_tac_toe_server_adc2ba8ad470fd0cd349bad1412886fa8} 
+server.\+Tic\+Tac\+Toe\+Server.\+check\+\_\+winner (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{}]{board}{, }\item[{}]{symbol}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Перевіряє, чи є перемога на дошці для заданого символу.
+@param board Ігрова дошка.
+@param symbol Символ для перевірки ('X' або 'O').
+@return True, якщо символ виграв; інакше False.
+\end{DoxyVerb}
+ \Hypertarget{classserver_1_1_tic_tac_toe_server_a3440eb6580ff91c37f6fd63d6d0b1f4e}\index{server.TicTacToeServer@{server.TicTacToeServer}!init\_board@{init\_board}}
+\index{init\_board@{init\_board}!server.TicTacToeServer@{server.TicTacToeServer}}
+\doxysubsubsection{\texorpdfstring{init\_board()}{init\_board()}}
+{\footnotesize\ttfamily \label{classserver_1_1_tic_tac_toe_server_a3440eb6580ff91c37f6fd63d6d0b1f4e} 
+server.\+Tic\+Tac\+Toe\+Server.\+init\+\_\+board (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Ініціалізує порожню ігрову дошку 3x3.
+@return Список списків, що представляє ігрову дошку.
+\end{DoxyVerb}
+ \Hypertarget{classserver_1_1_tic_tac_toe_server_a8787c8d9ae65d35c6b7d448030c9d370}\index{server.TicTacToeServer@{server.TicTacToeServer}!listen@{listen}}
+\index{listen@{listen}!server.TicTacToeServer@{server.TicTacToeServer}}
+\doxysubsubsection{\texorpdfstring{listen()}{listen()}}
+{\footnotesize\ttfamily \label{classserver_1_1_tic_tac_toe_server_a8787c8d9ae65d35c6b7d448030c9d370} 
+server.\+Tic\+Tac\+Toe\+Server.\+listen (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Основний цикл прослуховування комунікації через COM-порт.
+\end{DoxyVerb}
+ \Hypertarget{classserver_1_1_tic_tac_toe_server_a1b78681ba84b7f424c88b6498e3bb6e2}\index{server.TicTacToeServer@{server.TicTacToeServer}!load\_game@{load\_game}}
+\index{load\_game@{load\_game}!server.TicTacToeServer@{server.TicTacToeServer}}
+\doxysubsubsection{\texorpdfstring{load\_game()}{load\_game()}}
+{\footnotesize\ttfamily \label{classserver_1_1_tic_tac_toe_server_a1b78681ba84b7f424c88b6498e3bb6e2} 
+server.\+Tic\+Tac\+Toe\+Server.\+load\+\_\+game (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{}]{filename}{ = {\ttfamily \textquotesingle{}savegame.ini\textquotesingle{}}}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Завантажує стан гри з файлу.
+@param filename Ім'я файлу для завантаження.
+\end{DoxyVerb}
+ \Hypertarget{classserver_1_1_tic_tac_toe_server_a80c75f397f118ae9685efb724ea28745}\index{server.TicTacToeServer@{server.TicTacToeServer}!make\_ai\_move@{make\_ai\_move}}
+\index{make\_ai\_move@{make\_ai\_move}!server.TicTacToeServer@{server.TicTacToeServer}}
+\doxysubsubsection{\texorpdfstring{make\_ai\_move()}{make\_ai\_move()}}
+{\footnotesize\ttfamily \label{classserver_1_1_tic_tac_toe_server_a80c75f397f118ae9685efb724ea28745} 
+server.\+Tic\+Tac\+Toe\+Server.\+make\+\_\+ai\+\_\+move (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Робить хід AI, використовуючи алгоритм мінімакс.
+@return Координати зробленого ходу або None, якщо хід неможливий.
+\end{DoxyVerb}
+ \Hypertarget{classserver_1_1_tic_tac_toe_server_aa14b1cc5f0bc5766584650b6968f3879}\index{server.TicTacToeServer@{server.TicTacToeServer}!minimax@{minimax}}
+\index{minimax@{minimax}!server.TicTacToeServer@{server.TicTacToeServer}}
+\doxysubsubsection{\texorpdfstring{minimax()}{minimax()}}
+{\footnotesize\ttfamily \label{classserver_1_1_tic_tac_toe_server_aa14b1cc5f0bc5766584650b6968f3879} 
+server.\+Tic\+Tac\+Toe\+Server.\+minimax (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{}]{board}{, }\item[{}]{depth}{, }\item[{}]{is\+\_\+maximizing}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Алгоритм мінімакс для вибору найкращого ходу AI.
+@param board Ігрова дошка.
+@param depth Глибина рекурсії.
+@param is_maximizing Прапорець, що вказує, чи AI максимізує оцінку.
+@return Оцінка ходу.
+\end{DoxyVerb}
+ \Hypertarget{classserver_1_1_tic_tac_toe_server_a46baf297f5a1acd6daa21e6d50d8d20a}\index{server.TicTacToeServer@{server.TicTacToeServer}!process\_command@{process\_command}}
+\index{process\_command@{process\_command}!server.TicTacToeServer@{server.TicTacToeServer}}
+\doxysubsubsection{\texorpdfstring{process\_command()}{process\_command()}}
+{\footnotesize\ttfamily \label{classserver_1_1_tic_tac_toe_server_a46baf297f5a1acd6daa21e6d50d8d20a} 
+server.\+Tic\+Tac\+Toe\+Server.\+process\+\_\+command (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{}]{command}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}        @brief Обробляє отриману команду від клієнта.
+        @param command Рядок команди.
+        @return JSON-рядок з результатом обробки.
+\end{DoxyVerb}
+ \Hypertarget{classserver_1_1_tic_tac_toe_server_aa889a6575f9b2b07bff9d98e14fd9c11}\index{server.TicTacToeServer@{server.TicTacToeServer}!save\_game@{save\_game}}
+\index{save\_game@{save\_game}!server.TicTacToeServer@{server.TicTacToeServer}}
+\doxysubsubsection{\texorpdfstring{save\_game()}{save\_game()}}
+{\footnotesize\ttfamily \label{classserver_1_1_tic_tac_toe_server_aa889a6575f9b2b07bff9d98e14fd9c11} 
+server.\+Tic\+Tac\+Toe\+Server.\+save\+\_\+game (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{}]{filename}{ = {\ttfamily \textquotesingle{}savegame.ini\textquotesingle{}}}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Зберігає стан гри у файл.
+@param filename Ім'я файлу для збереження.
+\end{DoxyVerb}
+ 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+server.\+py\end{DoxyCompactItemize}

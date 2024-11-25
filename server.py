@@ -1,12 +1,28 @@
-import configparser
+"""
+@file server.py
+@brief Сервер гри "Хрестики-Нулики" на основі COM-порту
+@details Цей модуль реалізує серверну логіку гри "Хрестики-Нулики", використовуючи бібліотеки `serial`, `json`, та `threading`.
+"""
 
+import configparser
 import serial
 import json
 import threading
 
 
 class TicTacToeServer:
+    """
+    @class TicTacToeServer
+    @brief Сервер гри "Хрестики-Нулики"
+    @details Відповідає за логіку гри, збереження/завантаження стану гри, обробку команд та взаємодію через COM-порт.
+    """
+
     def __init__(self, port='COM11', baudrate=9600):
+        """
+        @brief Конструктор класу TicTacToeServer
+        @param port COM-порт, який буде використовуватись для взаємодії.
+        @param baudrate Швидкість передачі даних через COM-порт.
+        """
         self.ser = serial.Serial(port, baudrate, timeout=1)
         print(f"Сервер 'Хрестики-Нулики' запущено на {port}")
         self.board = self.init_board()
@@ -14,14 +30,21 @@ class TicTacToeServer:
         self.lock = threading.Lock()
         self.player_symbol = None
         self.ai_symbol = None
-        # Видалено автоматичне завантаження конфігурації
         self.listen_thread = threading.Thread(target=self.listen)
         self.listen_thread.start()
 
     def init_board(self):
+        """
+        @brief Ініціалізує порожню ігрову дошку 3x3.
+        @return Список списків, що представляє ігрову дошку.
+        """
         return [[" " for _ in range(3)] for _ in range(3)]
 
     def save_game(self, filename='savegame.ini'):
+        """
+        @brief Зберігає стан гри у файл.
+        @param filename Ім'я файлу для збереження.
+        """
         config = configparser.ConfigParser()
         config['GAME'] = {
             'player_symbol': self.player_symbol if self.player_symbol else "",
@@ -35,6 +58,10 @@ class TicTacToeServer:
         print(f"Гра збережена у файл {filename}")
 
     def load_game(self, filename='savegame.ini'):
+        """
+        @brief Завантажує стан гри з файлу.
+        @param filename Ім'я файлу для завантаження.
+        """
         config = configparser.ConfigParser()
         try:
             config.read(filename)
@@ -54,14 +81,17 @@ class TicTacToeServer:
             self.game_over = False
 
     def check_winner(self, board, symbol):
+        """
+        @brief Перевіряє, чи є перемога на дошці для заданого символу.
+        @param board Ігрова дошка.
+        @param symbol Символ для перевірки ('X' або 'O').
+        @return True, якщо символ виграв; інакше False.
+        """
         lines = (
-            # Рядки
             board[0], board[1], board[2],
-            # Стовпці
             [board[0][0], board[1][0], board[2][0]],
             [board[0][1], board[1][1], board[2][1]],
             [board[0][2], board[1][2], board[2][2]],
-            # Діагоналі
             [board[0][0], board[1][1], board[2][2]],
             [board[0][2], board[1][1], board[2][0]]
         )
@@ -71,9 +101,21 @@ class TicTacToeServer:
         return False
 
     def check_tie(self, board):
+        """
+        @brief Перевіряє, чи є нічия на дошці.
+        @param board Ігрова дошка.
+        @return True, якщо нічия; інакше False.
+        """
         return all(cell != " " for row in board for cell in row)
 
     def minimax(self, board, depth, is_maximizing):
+        """
+        @brief Алгоритм мінімакс для вибору найкращого ходу AI.
+        @param board Ігрова дошка.
+        @param depth Глибина рекурсії.
+        @param is_maximizing Прапорець, що вказує, чи AI максимізує оцінку.
+        @return Оцінка ходу.
+        """
         if self.check_winner(board, self.ai_symbol):
             return 1
         if self.check_winner(board, self.player_symbol):
@@ -103,6 +145,10 @@ class TicTacToeServer:
             return best_score
 
     def make_ai_move(self):
+        """
+        @brief Робить хід AI, використовуючи алгоритм мінімакс.
+        @return Координати зробленого ходу або None, якщо хід неможливий.
+        """
         best_score = -float('inf')
         move = None
         for i in range(3):
@@ -118,8 +164,12 @@ class TicTacToeServer:
             self.board[move[0]][move[1]] = self.ai_symbol
             return move
         return None
-
     def process_command(self, command):
+        """
+                @brief Обробляє отриману команду від клієнта.
+                @param command Рядок команди.
+                @return JSON-рядок з результатом обробки.
+        """
         response = {}
         if command.startswith("start"):
             parts = command.split()
@@ -193,6 +243,9 @@ class TicTacToeServer:
         return response_str
 
     def listen(self):
+        """
+        @brief Основний цикл прослуховування комунікації через COM-порт.
+        """
         try:
             while True:
                 if self.ser.in_waiting > 0:

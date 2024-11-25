@@ -1,3 +1,9 @@
+"""
+@file client.py
+@brief Клієнт гри "Хрестики-Нулики" на основі COM-порту
+@details Цей модуль реалізує клієнтську частину гри "Хрестики-Нулики" з графічним інтерфейсом на основі Tkinter.
+"""
+
 import tkinter as tk
 from tkinter import messagebox, simpledialog
 import serial
@@ -6,7 +12,18 @@ import threading
 
 
 class TicTacToeClient:
+    """
+    @class TicTacToeClient
+    @brief Клієнт гри "Хрестики-Нулики"
+    @details Відповідає за взаємодію з сервером гри через COM-порт, а також за графічний інтерфейс користувача.
+    """
+
     def __init__(self, port='COM12', baudrate=9600):
+        """
+        @brief Конструктор класу TicTacToeClient
+        @param port COM-порт, який буде використовуватись для взаємодії.
+        @param baudrate Швидкість передачі даних через COM-порт.
+        """
         self.root = tk.Tk()
         self.root.title("Хрестики-Нулики Клієнт")
         self.ser = serial.Serial(port, baudrate, timeout=1)
@@ -25,6 +42,10 @@ class TicTacToeClient:
         self.root.mainloop()
 
     def ask_player_symbol(self):
+        """
+        @brief Запитує символ гравця у користувача.
+        @details Відображає діалог для вибору символу ('X' або 'O') і передає вибір на сервер.
+        """
         symbol = None
         while symbol not in ['X', 'O']:
             symbol = simpledialog.askstring("Вибір символу", "Виберіть ваш символ (X або O):", parent=self.root)
@@ -39,7 +60,10 @@ class TicTacToeClient:
         self.ser.write(f"start {self.player_symbol}\n".encode())
 
     def create_widgets(self):
-        # Створення кнопок для поля
+        """
+        @brief Створює графічний інтерфейс користувача.
+        @details Додає кнопки для ігрової дошки, а також елементи керування для нової гри, збереження та завантаження.
+        """
         self.buttons = [[None for _ in range(3)] for _ in range(3)]
         for i in range(3):
             for j in range(3):
@@ -48,7 +72,6 @@ class TicTacToeClient:
                 button.grid(row=i, column=j)
                 self.buttons[i][j] = button
 
-        # Кнопки керування
         new_game_button = tk.Button(self.root, text="Нова гра", command=self.new_game)
         new_game_button.grid(row=3, column=0, columnspan=3, sticky="we")
 
@@ -59,20 +82,37 @@ class TicTacToeClient:
         load_game_button.grid(row=5, column=0, columnspan=3, sticky="we")
 
     def new_game(self):
+        """
+        @brief Починає нову гру.
+        @details Очищає ігрову дошку та повідомляє сервер про початок нової гри.
+        """
         self.ser.write("new\n".encode())
         self.game_over = False
         self.board = [[" " for _ in range(3)] for _ in range(3)]
         self.update_board()
 
     def save_game(self):
+        """
+        @brief Зберігає поточний стан гри.
+        @details Надсилає серверу команду збереження гри.
+        """
         self.ser.write("save\n".encode())
         messagebox.showinfo("Збереження", "Гру збережено у форматі INI.")
 
     def load_game(self):
+        """
+        @brief Завантажує стан гри.
+        @details Надсилає серверу команду завантаження гри.
+        """
         self.ser.write("load\n".encode())
         messagebox.showinfo("Завантаження", "Гру завантажено з INI файлу.")
 
     def make_move(self, row, col):
+        """
+        @brief Робить хід гравця.
+        @param row Рядок, у якому гравець хоче зробити хід.
+        @param col Стовпець, у якому гравець хоче зробити хід.
+        """
         if self.game_over:
             messagebox.showinfo("Гра закінчена", "Почніть нову гру.")
             return
@@ -83,6 +123,10 @@ class TicTacToeClient:
         self.ser.write(f"move {row} {col}\n".encode())
 
     def listen(self):
+        """
+        @brief Прослуховує відповіді від сервера.
+        @details У окремому потоці отримує відповіді від сервера та обробляє їх.
+        """
         try:
             while self.running:
                 if self.ser.in_waiting > 0:
@@ -102,13 +146,16 @@ class TicTacToeClient:
             print(f"Помилка в потоці прослуховування клієнта: {e}")
 
     def process_response(self, response):
+        """
+        @brief Обробляє відповідь від сервера.
+        @param response JSON-об'єкт з відповіддю від сервера.
+        """
         message = response.get('message', '')
         board = response.get('board', None)
         game_over = response.get('game_over', False)
         player_symbol = response.get('player_symbol', self.player_symbol)
         ai_symbol = response.get('ai_symbol', self.ai_symbol)
 
-        # Оновлюємо символи гравця та AI, якщо вони змінилися
         self.player_symbol = player_symbol
         self.ai_symbol = ai_symbol
 
@@ -119,11 +166,6 @@ class TicTacToeClient:
             if "переміг" in message or "Нічия" in message:
                 messagebox.showinfo("Результат гри", message)
                 self.game_over = True
-            elif "Клітинка зайнята" in message or "Некоректні координати" in message:
-                messagebox.showwarning("Помилка", message)
-            elif "Гра розпочата" in message or "Нова гра розпочата" in message or "Гру завантажено" in message:
-                messagebox.showinfo("Хрестики-Нулики", message)
-                self.game_over = game_over
             else:
                 messagebox.showinfo("Інформація", message)
                 self.game_over = game_over
@@ -131,12 +173,19 @@ class TicTacToeClient:
             self.game_over = game_over
 
     def update_board(self):
+        """
+        @brief Оновлює графічне представлення ігрової дошки.
+        """
         for i in range(3):
             for j in range(3):
                 self.buttons[i][j].config(text=self.board[i][j])
         self.root.update_idletasks()
 
     def close(self):
+        """
+        @brief Закриває клієнтську програму.
+        @details Закриває з'єднання з сервером і завершує потік.
+        """
         self.running = False
         if self.ser.is_open:
             self.ser.close()
@@ -146,3 +195,4 @@ class TicTacToeClient:
 
 if __name__ == "__main__":
     client = TicTacToeClient()
+

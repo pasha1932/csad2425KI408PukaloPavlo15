@@ -1,0 +1,181 @@
+\doxysection{client.\+Tic\+Tac\+Toe\+Client Class Reference}
+\hypertarget{classclient_1_1_tic_tac_toe_client}{}\label{classclient_1_1_tic_tac_toe_client}\index{client.TicTacToeClient@{client.TicTacToeClient}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classclient_1_1_tic_tac_toe_client_afa3cf2be89ff19b88cdc480ec795f87c}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, port=\textquotesingle{}COM12\textquotesingle{}, baudrate=9600)
+\item 
+\mbox{\hyperlink{classclient_1_1_tic_tac_toe_client_ac8ec2e01602ee38980801fffb2d86b38}{ask\+\_\+player\+\_\+symbol}} (self)
+\item 
+\mbox{\hyperlink{classclient_1_1_tic_tac_toe_client_abdad7bfee52a2fa10c8d55225754631e}{create\+\_\+widgets}} (self)
+\item 
+\mbox{\hyperlink{classclient_1_1_tic_tac_toe_client_ab8e9f4cc5b1a4bec861b8aecf7b118a3}{new\+\_\+game}} (self)
+\item 
+\mbox{\hyperlink{classclient_1_1_tic_tac_toe_client_a61febf80abc98634883412a4db911fb8}{save\+\_\+game}} (self)
+\item 
+\mbox{\hyperlink{classclient_1_1_tic_tac_toe_client_af21479b3545abe61d7a4cfff59d0bcc0}{load\+\_\+game}} (self)
+\item 
+\mbox{\hyperlink{classclient_1_1_tic_tac_toe_client_ab3023ed7343ca60e3628a16c9dd559d8}{make\+\_\+move}} (self, row, col)
+\item 
+\mbox{\hyperlink{classclient_1_1_tic_tac_toe_client_a26c9a76728a6ea66f1ccf913a2afc9f9}{listen}} (self)
+\item 
+\mbox{\hyperlink{classclient_1_1_tic_tac_toe_client_a1bff63c1b83d88f853a44457c533faba}{process\+\_\+response}} (self, response)
+\item 
+\mbox{\hyperlink{classclient_1_1_tic_tac_toe_client_a0612b7fe6d4e1fdd40950042828fa4a3}{update\+\_\+board}} (self)
+\item 
+\mbox{\hyperlink{classclient_1_1_tic_tac_toe_client_aff0ba36026a2fd456945b9c5caa08862}{close}} (self)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classclient_1_1_tic_tac_toe_client_a45c772784cc006d348864b2b5cc3f4fd}\label{classclient_1_1_tic_tac_toe_client_a45c772784cc006d348864b2b5cc3f4fd} 
+{\bfseries root} = tk.\+Tk()
+\item 
+\Hypertarget{classclient_1_1_tic_tac_toe_client_a6cb61ceaf276612e6d32f45ee59ad181}\label{classclient_1_1_tic_tac_toe_client_a6cb61ceaf276612e6d32f45ee59ad181} 
+{\bfseries ser} = serial.\+Serial(port, baudrate, timeout=1)
+\item 
+\Hypertarget{classclient_1_1_tic_tac_toe_client_ac574e849dbcadfaecab3ce81b8f03fe6}\label{classclient_1_1_tic_tac_toe_client_ac574e849dbcadfaecab3ce81b8f03fe6} 
+list {\bfseries board} = \mbox{[}\mbox{[}"{} "{} for \+\_\+ in range(3)\mbox{]} for \+\_\+ in range(3)\mbox{]}
+\item 
+\Hypertarget{classclient_1_1_tic_tac_toe_client_a64ec12a70c3fb907a5a0b21db7602f12}\label{classclient_1_1_tic_tac_toe_client_a64ec12a70c3fb907a5a0b21db7602f12} 
+{\bfseries player\+\_\+symbol} = None
+\item 
+\Hypertarget{classclient_1_1_tic_tac_toe_client_a6fc2b5e60395b10d9104e0a01e045df8}\label{classclient_1_1_tic_tac_toe_client_a6fc2b5e60395b10d9104e0a01e045df8} 
+str {\bfseries ai\+\_\+symbol} = None
+\item 
+\Hypertarget{classclient_1_1_tic_tac_toe_client_a8d1bbb0914613a147c69bbfc2828448e}\label{classclient_1_1_tic_tac_toe_client_a8d1bbb0914613a147c69bbfc2828448e} 
+bool {\bfseries game\+\_\+over} = False
+\item 
+\Hypertarget{classclient_1_1_tic_tac_toe_client_a70f1b7f6785fb12061eabfddc9cbf2b5}\label{classclient_1_1_tic_tac_toe_client_a70f1b7f6785fb12061eabfddc9cbf2b5} 
+bool {\bfseries running} = True
+\item 
+\Hypertarget{classclient_1_1_tic_tac_toe_client_a98592bc998e70300336f59bf39044e8f}\label{classclient_1_1_tic_tac_toe_client_a98592bc998e70300336f59bf39044e8f} 
+{\bfseries listen\+\_\+thread} = threading.\+Thread(target=self.\+listen)
+\item 
+\Hypertarget{classclient_1_1_tic_tac_toe_client_adf2bb3653d8249ddaa0b51938f7cb62b}\label{classclient_1_1_tic_tac_toe_client_adf2bb3653d8249ddaa0b51938f7cb62b} 
+{\bfseries close}
+\item 
+\Hypertarget{classclient_1_1_tic_tac_toe_client_ad7f369d9a37386968c52d695bc29c5d7}\label{classclient_1_1_tic_tac_toe_client_ad7f369d9a37386968c52d695bc29c5d7} 
+list {\bfseries buttons} = \mbox{[}\mbox{[}None for \+\_\+ in range(3)\mbox{]} for \+\_\+ in range(3)\mbox{]}
+\item 
+\Hypertarget{classclient_1_1_tic_tac_toe_client_a8cfab0bc16736a12e391fa78eecccf7f}\label{classclient_1_1_tic_tac_toe_client_a8cfab0bc16736a12e391fa78eecccf7f} 
+str {\bfseries game\+\_\+over} = "{} "{}\+:
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}@class TicTacToeClient
+@brief Клієнт гри "Хрестики-Нулики"
+@details Відповідає за взаємодію з сервером гри через COM-порт, а також за графічний інтерфейс користувача.
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classclient_1_1_tic_tac_toe_client_afa3cf2be89ff19b88cdc480ec795f87c}\index{client.TicTacToeClient@{client.TicTacToeClient}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!client.TicTacToeClient@{client.TicTacToeClient}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily \label{classclient_1_1_tic_tac_toe_client_afa3cf2be89ff19b88cdc480ec795f87c} 
+client.\+Tic\+Tac\+Toe\+Client.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{}]{port}{ = {\ttfamily \textquotesingle{}COM12\textquotesingle{}}, }\item[{}]{baudrate}{ = {\ttfamily 9600}}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Конструктор класу TicTacToeClient
+@param port COM-порт, який буде використовуватись для взаємодії.
+@param baudrate Швидкість передачі даних через COM-порт.
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classclient_1_1_tic_tac_toe_client_ac8ec2e01602ee38980801fffb2d86b38}\index{client.TicTacToeClient@{client.TicTacToeClient}!ask\_player\_symbol@{ask\_player\_symbol}}
+\index{ask\_player\_symbol@{ask\_player\_symbol}!client.TicTacToeClient@{client.TicTacToeClient}}
+\doxysubsubsection{\texorpdfstring{ask\_player\_symbol()}{ask\_player\_symbol()}}
+{\footnotesize\ttfamily \label{classclient_1_1_tic_tac_toe_client_ac8ec2e01602ee38980801fffb2d86b38} 
+client.\+Tic\+Tac\+Toe\+Client.\+ask\+\_\+player\+\_\+symbol (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Запитує символ гравця у користувача.
+@details Відображає діалог для вибору символу ('X' або 'O') і передає вибір на сервер.
+\end{DoxyVerb}
+ \Hypertarget{classclient_1_1_tic_tac_toe_client_aff0ba36026a2fd456945b9c5caa08862}\index{client.TicTacToeClient@{client.TicTacToeClient}!close@{close}}
+\index{close@{close}!client.TicTacToeClient@{client.TicTacToeClient}}
+\doxysubsubsection{\texorpdfstring{close()}{close()}}
+{\footnotesize\ttfamily \label{classclient_1_1_tic_tac_toe_client_aff0ba36026a2fd456945b9c5caa08862} 
+client.\+Tic\+Tac\+Toe\+Client.\+close (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Закриває клієнтську програму.
+@details Закриває з'єднання з сервером і завершує потік.
+\end{DoxyVerb}
+ \Hypertarget{classclient_1_1_tic_tac_toe_client_abdad7bfee52a2fa10c8d55225754631e}\index{client.TicTacToeClient@{client.TicTacToeClient}!create\_widgets@{create\_widgets}}
+\index{create\_widgets@{create\_widgets}!client.TicTacToeClient@{client.TicTacToeClient}}
+\doxysubsubsection{\texorpdfstring{create\_widgets()}{create\_widgets()}}
+{\footnotesize\ttfamily \label{classclient_1_1_tic_tac_toe_client_abdad7bfee52a2fa10c8d55225754631e} 
+client.\+Tic\+Tac\+Toe\+Client.\+create\+\_\+widgets (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Створює графічний інтерфейс користувача.
+@details Додає кнопки для ігрової дошки, а також елементи керування для нової гри, збереження та завантаження.
+\end{DoxyVerb}
+ \Hypertarget{classclient_1_1_tic_tac_toe_client_a26c9a76728a6ea66f1ccf913a2afc9f9}\index{client.TicTacToeClient@{client.TicTacToeClient}!listen@{listen}}
+\index{listen@{listen}!client.TicTacToeClient@{client.TicTacToeClient}}
+\doxysubsubsection{\texorpdfstring{listen()}{listen()}}
+{\footnotesize\ttfamily \label{classclient_1_1_tic_tac_toe_client_a26c9a76728a6ea66f1ccf913a2afc9f9} 
+client.\+Tic\+Tac\+Toe\+Client.\+listen (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Прослуховує відповіді від сервера.
+@details У окремому потоці отримує відповіді від сервера та обробляє їх.
+\end{DoxyVerb}
+ \Hypertarget{classclient_1_1_tic_tac_toe_client_af21479b3545abe61d7a4cfff59d0bcc0}\index{client.TicTacToeClient@{client.TicTacToeClient}!load\_game@{load\_game}}
+\index{load\_game@{load\_game}!client.TicTacToeClient@{client.TicTacToeClient}}
+\doxysubsubsection{\texorpdfstring{load\_game()}{load\_game()}}
+{\footnotesize\ttfamily \label{classclient_1_1_tic_tac_toe_client_af21479b3545abe61d7a4cfff59d0bcc0} 
+client.\+Tic\+Tac\+Toe\+Client.\+load\+\_\+game (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Завантажує стан гри.
+@details Надсилає серверу команду завантаження гри.
+\end{DoxyVerb}
+ \Hypertarget{classclient_1_1_tic_tac_toe_client_ab3023ed7343ca60e3628a16c9dd559d8}\index{client.TicTacToeClient@{client.TicTacToeClient}!make\_move@{make\_move}}
+\index{make\_move@{make\_move}!client.TicTacToeClient@{client.TicTacToeClient}}
+\doxysubsubsection{\texorpdfstring{make\_move()}{make\_move()}}
+{\footnotesize\ttfamily \label{classclient_1_1_tic_tac_toe_client_ab3023ed7343ca60e3628a16c9dd559d8} 
+client.\+Tic\+Tac\+Toe\+Client.\+make\+\_\+move (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{}]{row}{, }\item[{}]{col}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Робить хід гравця.
+@param row Рядок, у якому гравець хоче зробити хід.
+@param col Стовпець, у якому гравець хоче зробити хід.
+\end{DoxyVerb}
+ \Hypertarget{classclient_1_1_tic_tac_toe_client_ab8e9f4cc5b1a4bec861b8aecf7b118a3}\index{client.TicTacToeClient@{client.TicTacToeClient}!new\_game@{new\_game}}
+\index{new\_game@{new\_game}!client.TicTacToeClient@{client.TicTacToeClient}}
+\doxysubsubsection{\texorpdfstring{new\_game()}{new\_game()}}
+{\footnotesize\ttfamily \label{classclient_1_1_tic_tac_toe_client_ab8e9f4cc5b1a4bec861b8aecf7b118a3} 
+client.\+Tic\+Tac\+Toe\+Client.\+new\+\_\+game (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Починає нову гру.
+@details Очищає ігрову дошку та повідомляє сервер про початок нової гри.
+\end{DoxyVerb}
+ \Hypertarget{classclient_1_1_tic_tac_toe_client_a1bff63c1b83d88f853a44457c533faba}\index{client.TicTacToeClient@{client.TicTacToeClient}!process\_response@{process\_response}}
+\index{process\_response@{process\_response}!client.TicTacToeClient@{client.TicTacToeClient}}
+\doxysubsubsection{\texorpdfstring{process\_response()}{process\_response()}}
+{\footnotesize\ttfamily \label{classclient_1_1_tic_tac_toe_client_a1bff63c1b83d88f853a44457c533faba} 
+client.\+Tic\+Tac\+Toe\+Client.\+process\+\_\+response (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{}]{response}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Обробляє відповідь від сервера.
+@param response JSON-об'єкт з відповіддю від сервера.
+\end{DoxyVerb}
+ \Hypertarget{classclient_1_1_tic_tac_toe_client_a61febf80abc98634883412a4db911fb8}\index{client.TicTacToeClient@{client.TicTacToeClient}!save\_game@{save\_game}}
+\index{save\_game@{save\_game}!client.TicTacToeClient@{client.TicTacToeClient}}
+\doxysubsubsection{\texorpdfstring{save\_game()}{save\_game()}}
+{\footnotesize\ttfamily \label{classclient_1_1_tic_tac_toe_client_a61febf80abc98634883412a4db911fb8} 
+client.\+Tic\+Tac\+Toe\+Client.\+save\+\_\+game (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Зберігає поточний стан гри.
+@details Надсилає серверу команду збереження гри.
+\end{DoxyVerb}
+ \Hypertarget{classclient_1_1_tic_tac_toe_client_a0612b7fe6d4e1fdd40950042828fa4a3}\index{client.TicTacToeClient@{client.TicTacToeClient}!update\_board@{update\_board}}
+\index{update\_board@{update\_board}!client.TicTacToeClient@{client.TicTacToeClient}}
+\doxysubsubsection{\texorpdfstring{update\_board()}{update\_board()}}
+{\footnotesize\ttfamily \label{classclient_1_1_tic_tac_toe_client_a0612b7fe6d4e1fdd40950042828fa4a3} 
+client.\+Tic\+Tac\+Toe\+Client.\+update\+\_\+board (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Оновлює графічне представлення ігрової дошки.
+\end{DoxyVerb}
+ 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+client.\+py\end{DoxyCompactItemize}
