@@ -11,7 +11,7 @@ on:
 jobs:
   build-and-test:
     runs-on: windows-latest
-
+    
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
@@ -22,15 +22,21 @@ jobs:
         python-version: '3.x'
 
     - name: Install dependencies
-      run: pip install pyserial
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
 
     - name: Run Server in Background
-      run: start /B python server.py
-      shell: cmd
+      run: |
+        python server.py &
+      shell: bash
 
     - name: Run Client Test
       run: python client.py
 
     - name: Cleanup
-      run: taskkill /F /IM python.exe
-      shell: cmd
+      run: |
+        pkill -f server.py || true
+        pkill -f client.py || true
+      shell: bash
+
