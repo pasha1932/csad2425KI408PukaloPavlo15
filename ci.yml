@@ -1,0 +1,36 @@
+name: Build and Test Python Client-Server
+
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  build-and-test:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: pip install pyserial
+
+    - name: Run Server in Background
+      run: start /B python server.py
+      shell: cmd
+
+    - name: Run Client Test
+      run: python client.py
+
+    - name: Cleanup
+      run: taskkill /F /IM python.exe
+      shell: cmd
