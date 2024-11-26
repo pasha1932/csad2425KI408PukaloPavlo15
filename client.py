@@ -18,7 +18,7 @@ class TicTacToeClient:
     @details Відповідає за взаємодію з сервером гри через COM-порт, а також за графічний інтерфейс користувача.
     """
 
-    def __init__(self, port='COM12', baudrate=9600):
+    def __init__(self, port='COM12', baudrate=9600, start_mainloop=True):
         """
         @brief Конструктор класу TicTacToeClient
         @param port COM-порт, який буде використовуватись для взаємодії.
@@ -33,13 +33,17 @@ class TicTacToeClient:
         self.ai_symbol = None
         self.game_over = False
         self.running = True  # Прапорець для контролю потоку
+
         self.create_widgets()
         self.listen_thread = threading.Thread(target=self.listen)
         self.listen_thread.daemon = True
         self.listen_thread.start()
+
         self.root.protocol("WM_DELETE_WINDOW", self.close)
         self.ask_player_symbol()
-        self.root.mainloop()
+
+        if start_mainloop:
+            self.root.mainloop()
 
     def ask_player_symbol(self):
         """
@@ -62,7 +66,6 @@ class TicTacToeClient:
     def create_widgets(self):
         """
         @brief Створює графічний інтерфейс користувача.
-        @details Додає кнопки для ігрової дошки, а також елементи керування для нової гри, збереження та завантаження.
         """
         self.buttons = [[None for _ in range(3)] for _ in range(3)]
         for i in range(3):
@@ -72,19 +75,13 @@ class TicTacToeClient:
                 button.grid(row=i, column=j)
                 self.buttons[i][j] = button
 
-        new_game_button = tk.Button(self.root, text="Нова гра", command=self.new_game)
-        new_game_button.grid(row=3, column=0, columnspan=3, sticky="we")
-
-        save_game_button = tk.Button(self.root, text="Зберегти гру", command=self.save_game)
-        save_game_button.grid(row=4, column=0, columnspan=3, sticky="we")
-
-        load_game_button = tk.Button(self.root, text="Завантажити гру", command=self.load_game)
-        load_game_button.grid(row=5, column=0, columnspan=3, sticky="we")
+        tk.Button(self.root, text="Нова гра", command=self.new_game).grid(row=3, column=0, columnspan=3, sticky="we")
+        tk.Button(self.root, text="Зберегти гру", command=self.save_game).grid(row=4, column=0, columnspan=3, sticky="we")
+        tk.Button(self.root, text="Завантажити гру", command=self.load_game).grid(row=5, column=0, columnspan=3, sticky="we")
 
     def new_game(self):
         """
         @brief Починає нову гру.
-        @details Очищає ігрову дошку та повідомляє сервер про початок нової гри.
         """
         self.ser.write("new\n".encode())
         self.game_over = False
@@ -94,7 +91,6 @@ class TicTacToeClient:
     def save_game(self):
         """
         @brief Зберігає поточний стан гри.
-        @details Надсилає серверу команду збереження гри.
         """
         self.ser.write("save\n".encode())
         messagebox.showinfo("Збереження", "Гру збережено у форматі INI.")
@@ -102,7 +98,6 @@ class TicTacToeClient:
     def load_game(self):
         """
         @brief Завантажує стан гри.
-        @details Надсилає серверу команду завантаження гри.
         """
         self.ser.write("load\n".encode())
         messagebox.showinfo("Завантаження", "Гру завантажено з INI файлу.")
@@ -110,8 +105,6 @@ class TicTacToeClient:
     def make_move(self, row, col):
         """
         @brief Робить хід гравця.
-        @param row Рядок, у якому гравець хоче зробити хід.
-        @param col Стовпець, у якому гравець хоче зробити хід.
         """
         if self.game_over:
             messagebox.showinfo("Гра закінчена", "Почніть нову гру.")
@@ -119,13 +112,11 @@ class TicTacToeClient:
         if self.board[row][col] != " ":
             messagebox.showwarning("Некоректний хід", "Ця клітинка вже зайнята.")
             return
-
         self.ser.write(f"move {row} {col}\n".encode())
 
     def listen(self):
         """
         @brief Прослуховує відповіді від сервера.
-        @details У окремому потоці отримує відповіді від сервера та обробляє їх.
         """
         try:
             while self.running:
@@ -148,16 +139,10 @@ class TicTacToeClient:
     def process_response(self, response):
         """
         @brief Обробляє відповідь від сервера.
-        @param response JSON-об'єкт з відповіддю від сервера.
         """
         message = response.get('message', '')
         board = response.get('board', None)
         game_over = response.get('game_over', False)
-        player_symbol = response.get('player_symbol', self.player_symbol)
-        ai_symbol = response.get('ai_symbol', self.ai_symbol)
-
-        self.player_symbol = player_symbol
-        self.ai_symbol = ai_symbol
 
         if board:
             self.board = board
@@ -169,8 +154,6 @@ class TicTacToeClient:
             else:
                 messagebox.showinfo("Інформація", message)
                 self.game_over = game_over
-        else:
-            self.game_over = game_over
 
     def update_board(self):
         """
@@ -184,7 +167,6 @@ class TicTacToeClient:
     def close(self):
         """
         @brief Закриває клієнтську програму.
-        @details Закриває з'єднання з сервером і завершує потік.
         """
         self.running = False
         if self.ser.is_open:
@@ -195,4 +177,3 @@ class TicTacToeClient:
 
 if __name__ == "__main__":
     client = TicTacToeClient()
-
